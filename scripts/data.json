@@ -1,0 +1,62 @@
+[
+	{
+	    "ID": "1", 
+	    "Name": "#站点01", 
+	    "Type": "核心站点", 
+	    "Longitude": 121.405801, 
+	    "Latitude": 31.294206, 
+	    "Level1": 1, 
+	    "Level2": 2, 
+	    "Level3": 3, 
+	    "Level4": 4, 
+	    "Remark": "xxx"
+	},
+	{
+	    "ID": "2", 
+	    "Name": "#站点02", 
+	    "Type": "汇聚站点", 
+	    "Longitude": 121.506124, 
+	    "Latitude": 31.242598, 
+	    "Level1": 0, 
+	    "Level2": 2, 
+	    "Level3": 8, 
+	    "Level4": 16, 
+	    "Remark": "yyy"
+	},
+	{
+	    "ID": "3", 
+	    "Name": "#站点03", 
+	    "Type": "核心站点", 
+	    "Longitude": 121.553842, 
+	    "Latitude": 31.238646, 
+	    "Level1": 0, 
+	    "Level2": 0, 
+	    "Level3": 9, 
+	    "Level4": 7, 
+	    "Remark": "wwww"
+	},
+	{
+	    "ID": "4", 
+	    "Name": "#站点04", 
+	    "Type": "核心站点", 
+	    "Longitude": 121.48399, 
+	    "Latitude": 31.189973, 
+	    "Level1": 0, 
+	    "Level2": 0, 
+	    "Level3": 0, 
+	    "Level4": 15, 
+	    "Remark": "aaaa"
+	},
+	{
+	    "ID": "5", 
+	    "Name": "#站点05", 
+	    "Type": "核心站点", 
+	    "Longitude": 121.421899, 
+	    "Latitude": 31.239387, 
+	    "Level1": 0, 
+	    "Level2": 0, 
+	    "Level3": 0, 
+	    "Level4": 0, 
+	    "Remark": "eeee"
+	}
+]

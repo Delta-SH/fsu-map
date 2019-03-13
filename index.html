@@ -1,0 +1,55 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>电子地图</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="32x32" href="favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="电子地图" />
+    <link rel="apple-touch-icon-precomposed" href="favicon.ico">
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+    <link rel="stylesheet" href="css/map.css">
+</head>
+<body>
+    <div id="container"></div>
+	<div id="search-panel">
+        <div id="searchbox" class="clearfix">
+            <div id="searchbox-container">
+                <input id="searchbox-input" name="word" type="text" value="" placeholder="搜地点、查公交、找路线" maxlength="256" autocomplete="off">
+            </div>
+            <button id="search-button"></button>
+        </div>
+        <div id="search-results">
+        </div>
+    </div>
+    <div id="unconnected-panel">
+        <p class="title">
+            您未连接到互联网，无法使用电子地图功能。
+        </p>
+        <p>
+            1) 电子地图提供的是一种在线服务功能，需要访问的客户端连接到互联网后才可以正常使用。
+        </p>
+        <p>
+            2) 请确保您的客户端已成功连接到互联网后，刷新页面重试。
+        </p>
+        <p>
+            3) 如果您还有其他问题，请与系统管理员联系。
+        </p>
+    </div>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="scripts/framework/jquery.1.11.3.min.js" type="text/javascript"></script>
+    <script src="http://api.map.baidu.com/api?v=3.0&ak=bmfGMlmw6YkvEq3GoPvyPcATO5XquSEA" type="text/javascript"></script>
+    <script src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js" type="text/javascript"></script>
+    <script src="scripts/map.js" type="text/javascript"></script>
+</body>
+</html>
