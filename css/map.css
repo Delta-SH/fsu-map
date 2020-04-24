@@ -116,35 +116,186 @@ input:-ms-input-placeholder {
     clear: both;
 }
 
-.contentWndBox .content {
-    width: 100%;
-    color: #4d4d4d;
-    margin: 5px;
+.BMapLib_SearchInfoWindow {
+
 }
-.contentWndBox .content td {
-    padding-bottom:5px;
+
+.BMapLib_SearchInfoWindow .BMapLib_bubble_content{
+    padding: 0;
+    overflow: hidden;
 }
-.contentWndBox .content td.title {
+
+.section > .title {
+    background: #eee;
+    padding: 5px;
+    color: #555;
+}
+
+.section > .content {
+    padding: 5px;
+}
+
+.section > .content > .item {
+    position: relative;
+    height: 20px;
+    line-height: 20px;
+}
+
+.section > .content > .item > .item-label {
     width: 40px;
+    float: left;
 }
-.contentWndBox .alarm {
+
+.section > .content > .item > .item-text {
+    overflow: hidden;
+}
+
+.section > .content > .item > .item-span{
+    width: 50%;
+    float: left;
+}
+
+.section > .datatable {
+    margin: 3px;
+    position: relative;
+    clear: both;
+    border: 1px solid #ddd;
+}
+
+.section > .datatable > .datahead {
+    overflow: hidden; 
+    position: relative; 
     width: 100%;
-    color: #4d4d4d;
-    margin-right: 5px;
-    margin-left: 5px;
+    border-bottom: 1px solid #ddd;
 }
-.contentWndBox .alarm td {
-    padding-bottom:5px;
+
+.section > .datatable > .datahead > table{
+    width: 100%;
+    margin-bottom: 0!important;
+    border-collapse: collapse!important;
 }
-.contentWndBox .alarm td.title {
-    width: 65px;
-} 
-.BMapLib_SearchInfoWindow a,
-.contentWndBox .alarm td a {
-    color: #3d6dcc;
-    text-decoration: none;
+
+.section > .datatable > .datahead > table > thead th{
+    height: 22px;
+    text-align: center;
+    border-left: 1px solid #ddd;
 }
-.BMapLib_SearchInfoWindow a:hover,
-.contentWndBox .alarm td a:hover {
-    text-decoration: underline;
+
+.section > .datatable > .datahead > table > thead th:first-child{
+    border-left-width:0;
+}
+
+.section > .datatable > .databody {
+    overflow: auto; 
+    height: 150px; 
+    width: 100%;
+}
+
+.section > .datatable > .databody > table{
+    width: 100%;
+    border-collapse: collapse!important;
+}
+
+.section > .datatable > .databody  > table > thead > tr{
+    height: 0px;
+}
+
+.section > .datatable > .databody  > table > thead th {
+    padding-top: 0px; 
+    padding-bottom: 0px; 
+    border-top-width: 0px; 
+    border-bottom-width: 0px; 
+    height: 0px;
+    border-left: 1px solid #ddd;
+}
+
+.section > .datatable > .databody > table > thead th:first-child{
+    border-left-width:0;
+}
+
+.section > .datatable > .databody  > table > thead th > div {
+    height:0;
+    overflow:hidden;
+}
+
+.section > .datatable > .databody  > table > tbody > tr > td {
+    height: 22px;
+    padding-left: 5px;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.section > .datatable > .databody  > table > tbody > tr > td:last-child {
+    border-right: none;
+}
+
+.section > .datatable > .databody  > table > tbody > tr:last-child > td {
+    border-bottom: none;
+}
+
+tr.odd {
+    background-color: #f5f5f5;
+}
+
+td.state0 {
+}
+
+td.state1 {
+    background-color: #a01717;
+    color: #fff;
+}
+
+td.state2 {
+    background-color: #FFA60A;
+    color: #fff;
+}
+
+td.state3 {
+    background-color: #FFD213;
+    color: #fff;
+}
+
+td.state4 {
+    background-color: #0094CE;
+    color: #fff;
+}
+
+td.state5 {
+    background-color: #0000ff;
+}
+
+td.state6 {
+    background-color: #d3d3d3;
+    color: #fff;
+}
+
+td.state7 {
+    background-color: #0000ff;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fbfbfb;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #e0e0e0;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #b5b5b5;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-button:end:increment,
+::-webkit-scrollbar-button:start:decrement {
+    display: block;
+    width: 0;
+    height: 0;
+    background-color: transparent
 }

@@ -1,0 +1,77 @@
+{
+	"ID": "1",
+	"Name": "#站点01",
+	"Type": "核心站点",
+	"Longitude": 121.405801,
+	"Latitude": 31.294206,
+	"AlarmCounter": {
+		"Level1": 33,
+		"Level2": 24,
+		"Level3": 35,
+		"Level4": 46
+	},
+	"State": 2,
+	"DisplayAddress": true,
+	"SigDatas": [{
+			"Name": "信号1",
+			"Value": "4",
+			"Desc": "2级告警",
+			"State": 2
+		},
+		{
+			"Name": "信号2",
+			"Value": "3",
+			"Desc": "1级告警",
+			"State": 1
+		},
+		{
+			"Name": "信号3",
+			"Value": "2",
+			"Desc": "3级告警",
+			"State": 3
+		},
+		{
+			"Name": "信号4",
+			"Value": "5",
+			"Desc": "3级告警",
+			"State": 3
+		},
+		{
+			"Name": "信号5",
+			"Value": "8",
+			"Desc": "正常",
+			"State": 0
+		},
+		{
+			"Name": "信号6",
+			"Value": "6",
+			"Desc": "正常",
+			"State": 0
+		},
+		{
+			"Name": "信号7",
+			"Value": "2",
+			"Desc": "1级告警",
+			"State": 1
+		},
+		{
+			"Name": "信号8",
+			"Value": "1",
+			"Desc": "3级告警",
+			"State": 6
+		},
+		{
+			"Name": "信号9",
+			"Value": "3",
+			"Desc": "2级告警",
+			"State": 5
+		},
+		{
+			"Name": "信号10",
+			"Value": "12",
+			"Desc": "3级告警",
+			"State": 3
+		}
+	],
+	"Remark": "xxx"
+}

@@ -268,22 +268,22 @@ var createMarker = function (cfg, point) {
     var label = new BMap.Label(cfg.Name, { offset: new BMap.Size(30, 3) });
     marker._cfg = cfg;
 
-    if (cfg.Level1 > 0) {
+    if (cfg.State === 1) {
         label.setStyle({ background: '#f04b51', border: '#f04b51', 'border-radius': '3px', padding: '3px 5px', color: "#fff" });
         marker.setIcon(icon1);
         marker.setShadow(shadow);
         marker.setLabel(label);
-    } else if (cfg.Level2 > 0) {
+    } else if (cfg.State === 2) {
         label.setStyle({ background: '#efa91f', border: '#efa91f', 'border-radius': '3px', padding: '3px 5px', color: "#fff" });
         marker.setIcon(icon2);
         marker.setShadow(shadow);
         marker.setLabel(label);
-    } else if (cfg.Level3  > 0) {
+    } else if (cfg.State === 3) {
         label.setStyle({ background: '#f5d313', border: '#f5d313', 'border-radius': '3px', padding: '3px 5px', color: "#fff" });
         marker.setIcon(icon3);
         marker.setShadow(shadow);
         marker.setLabel(label);
-    } else if (cfg.Level4  > 0) {
+    } else if (cfg.State === 4) {
         label.setStyle({ background: '#0892cd', border: '#0892cd', 'border-radius': '3px', padding: '3px 5px', color: "#fff" });
         marker.setIcon(icon4);
         marker.setShadow(shadow);
@@ -298,6 +298,41 @@ var createMarker = function (cfg, point) {
     marker.addEventListener("click", clkMarker);
     marker.addEventListener("dblclick", dblMarker);
     return marker;
+};
+
+//更新标记
+var doMarker = function (cfg) {
+    if(valid() === false)
+        return false;
+
+    if(isNull($container) === true)
+        return false;
+
+    var markers = $container.getOverlays();
+    for (var i = 0; i < markers.length; i++) {
+        var marker = markers[i];
+        if (!marker._cfg) continue;
+        if(marker._cfg.ID != cfg.ID) continue;
+
+        marker._cfg = cfg;
+        var label = marker.getLabel();
+        if (cfg.State === 1) {
+            label.setStyle({ background: '#f04b51', border: '#f04b51', 'border-radius': '3px', padding: '3px 5px', color: "#fff" });
+            marker.setIcon(icon1);
+        } else if (cfg.State === 2) {
+            label.setStyle({ background: '#efa91f', border: '#efa91f', 'border-radius': '3px', padding: '3px 5px', color: "#fff" });
+            marker.setIcon(icon2);
+        } else if (cfg.State === 3) {
+            label.setStyle({ background: '#f5d313', border: '#f5d313', 'border-radius': '3px', padding: '3px 5px', color: "#fff" });
+            marker.setIcon(icon3);
+        } else if (cfg.State === 4) {
+            label.setStyle({ background: '#0892cd', border: '#0892cd', 'border-radius': '3px', padding: '3px 5px', color: "#fff" });
+            marker.setIcon(icon4);
+        } else {
+            label.setStyle({ background: '#48ac2e', border: '#48ac2e', 'border-radius': '3px', padding: '3px 5px', color: "#fff" });
+            marker.setIcon(icon0);
+        }
+    }
 };
 
 //删除标记
@@ -329,12 +364,17 @@ var clkMarker = function (e) {
     $infwindow.open(e.target);
     $infwindow.setTitle(cfg.Name + '&nbsp;&nbsp;<a href=\"cmd://markercallback?'+cfg.ID+'\" target=\"_self\">详情»</a>');
     $infwindow.setContent(getContent(cfg));
+    $infwindow._address = null;
 
-    $geoc.getLocation(e.target.getPosition(), function (rs) {
-        var address = rs.addressComponents;
-        var detail = address.province + address.city + address.district + address.street + address.streetNumber;
-        $("table.content tr:last td:last").html(detail).attr({ title: detail });
-    });
+    if(cfg.DisplayAddress === true){
+        $geoc.getLocation(e.target.getPosition(), function (rs) {
+            var address = rs.addressComponents;
+            var detail = address.province + address.city + address.district + address.street + address.streetNumber;
+            $(".contentWndBox > .baseinfo > .content > .item-address > .item-text")
+            .html(detail).attr({ title: detail });
+            $infwindow._address = detail;
+        });
+    }
 };
 
 //双击标记
@@ -386,14 +426,14 @@ var initWindow = function(){
     if (isNull($infwindow) === true) {
         $infwindow = new BMapLib.SearchInfoWindow($container, '', {
             title: '',      //标题
-            width: 290,             //宽度
-            height: 135,              //高度
+            width: 300,             //宽度
+            height: 0,              //高度
             panel: "panel",         //检索结果面板
             enableAutoPan: true,     //自动平移
             searchTypes: [
-                BMAPLIB_TAB_SEARCH,   //周边检索
-                BMAPLIB_TAB_TO_HERE,  //到这里去
-                BMAPLIB_TAB_FROM_HERE //从这里出发
+                // BMAPLIB_TAB_SEARCH,   //周边检索
+                // BMAPLIB_TAB_TO_HERE,  //到这里去
+                // BMAPLIB_TAB_FROM_HERE //从这里出发
             ]
         });
     }
@@ -402,60 +442,188 @@ var initWindow = function(){
         $infwindow.close();
 };
 
-//获取详细信息窗体内容
-var getContent = function (cfg) {
-    if(isNull(cfg) === true)
+//更新详细信息窗体
+var doWindow = function(data){
+    if (isNull($infwindow) === true) {
         return false;
+    }
 
-    var content = [
-        '<div class=\"contentWndBox\">',
-        '<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"content\">',
-        '<tr>',
-        '<td valign=\"top\" class=\"title\">类型：</td>',
-        '<td valign=\"top\" title=\"' + cfg.Type + '\">' + cfg.Type + '</td>',
-        '</tr>',
-        '<tr>',
-        '<td valign=\"top\" class=\"title\">经度：</td>',
-        '<td valign=\"top\" title=\"' + cfg.Longitude + '\">' + cfg.Longitude + '</td>',
-        '</tr>',
-        '<tr>',
-        '<td valign=\"top\" class=\"title\">纬度：</td>',
-        '<td valign=\"top\" title=\"' + cfg.Latitude + '\">' + cfg.Latitude + '</td>',
-        '</tr>',
-        '<tr>',
-        '<td valign=\"top\" class=\"title\">地址：</td>',
-        '<td valign=\"top\" title=\"\"></td>',
-        '</tr>',
-        '</table>',
-        '<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"alarm\">',
-        '<tr>',
-        '<td class=\"title\">一级告警：</td>',
-        '<td>' + cfg.Level1 + '&nbsp;条</a></td>',
-        '<td class=\"title\">二级告警：</td>',
-        '<td>' + cfg.Level2 + '&nbsp;条</td>',
-        '</tr>',
-        '<tr>',
-        '<td class=\"title\">三级告警：</td>',
-        '<td>' + cfg.Level3 + '&nbsp;条</td>',
-        '<td class=\"title\">四级告警：</td>',
-        '<td>' + cfg.Level4 + '&nbsp;条</td>',
-        '</tr>',
-        '</table>',
-        '</div>'
-    ];
+    if ($infwindow._isOpen === false) {
+        return false;
+    }
 
-    return content.join('');
+    if (isNull($infwindow._marker) === true) {
+        return false;
+    }
+
+    if ($infwindow._marker._cfg.ID !== data.ID) {
+        return false;
+    }
+
+    var offset = $('.contentWndBox .datatable > .databody').scrollTop();
+    $infwindow.setContent(getContent(data, $infwindow._address));
+    $infwindow._marker._cfg = data;
+    $('.contentWndBox .datatable > .databody').scrollTop(offset);
 };
+
+//获取详细信息窗体内容
+var getContent = function (cfg, address) {
+    if(isNull(cfg) === true)
+        return "";
+
+    var html = '<div class="contentWndBox">';
+    //基础信息
+    html += '<div class="section baseinfo">';
+    html += '<div class="title">基础信息</div>';
+    html += '<div class="content">';
+    html += '<div class="item">';
+    html += '<div class="item-label">名称：</div>';
+    html += '<div class="item-text">'+cfg.Name+'</div>';
+    html += '</div>';
+    if(isNull(cfg.Type) === false){
+        html += '<div class="item">';
+        html += '<div class="item-label">类型：</div>';
+        html += '<div class="item-text">'+cfg.Type+'</div>';
+        html += '</div>';
+    }
+    if(cfg.DisplayAddress === true){
+        html += '<div class="item item-address">';
+        html += '<div class="item-label">地址：</div>';
+        html += '<div class="item-text">'+(address||'')+'</div>';
+        html += '</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+
+    //告警统计信息
+    if(isNull(cfg.AlarmCounter) === false){
+        html += '<div class="section alarm">';
+        html += '<div class="title">告警统计</div>';
+        html += '<div class="content">';
+        html += '<div class="item">';
+        html += '<div class="item-span">一级告警： '+cfg.AlarmCounter.Level1+'条</div>';
+        html += '<div class="item-span">二级告警： '+cfg.AlarmCounter.Level2+'条</div>';
+        html += '</div>';
+        html += '<div class="item">';
+        html += '<div class="item-span">三级告警： '+cfg.AlarmCounter.Level3+'条</div>';
+        html += '<div class="item-span">四级告警： '+cfg.AlarmCounter.Level4+'条</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
+
+    //重要信号
+    if(isNull(cfg.SigDatas) === false && cfg.SigDatas.length > 0){
+        html += '<div class="section signal">';
+        html += '<div class="title">重要信号</div>';
+        html += '<div class="datatable">';
+        html += '<div class="datahead">';
+        html += '<table cellspacing="0" cellpadding="0" span width="100%">';
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th style="width: 120px;">信号名称</th>';
+        html += '<th style="width: 80px;">信号测值</th>';
+        html += '<th>测值描述</th>';
+        html += '</tr>';
+        html += '</thead>';
+        html += '</table>';
+        html += '</div>';
+        html += '<div class="databody">';
+        html += '<table cellspacing="0" cellpadding="0" width="100%">';
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th style="width: 120px;">';
+        html += '<div>信号名称</div>';
+        html += '</th>';
+        html += '<th style="width: 80px;">';
+        html += '<div>信号测值</div>';
+        html += '</th>';
+        html += '<th>';
+        html += '<div>测值描述</div>';
+        html += '</th>';
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+        $.each(cfg.SigDatas, function(index,val){
+             html += '<tr class="'+(index%2 === 0 ? 'odd' : 'even')+'">';
+             html += '<td>'+val.Name+'</td>';
+             html += '<td class="'+getState(val.State)+'">'+val.Value+'</td>';
+             html += '<td>'+val.Desc+'</td>';
+             html += '</tr>';
+        });
+        html += '</tbody>';
+        html += '</table>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
+
+    html += '</div>'
+    return html;
+};
+
+//获取信号状态样式
+var getState = function(state){
+    switch(state){
+        case 0:
+        return 'state0';
+        case 1:
+        return 'state1';
+        case 2:
+        return 'state2';
+        case 3:
+        return 'state3';
+        case 4:
+        return 'state4';
+        case 5:
+        return 'state5';
+        case 6:
+        return 'state6';
+        case 7:
+        return 'state7';
+        default:
+        return 'state0';
+    }
+};
+
+//模拟请求
+var testRequest = function(){
+    $.getJSON("scripts/data.json", function (data) {
+        getrangemarkers(JSON.stringify(data));
+    });
+}
+
+//模拟更新
+var testUpdate = function(){
+    $.getJSON("scripts/update.json", function (data) {
+        updatemarker(JSON.stringify(data));
+    });
+}
 
 //接口方法
 var getrangemarkers = function(data){
     if (isNullOrEmpty(data) === false) {
         if (data.startWith('Error') === false) {
-            addMarkers(JSON.parse(data));
+            var cfg = JSON.parse(data);
+            addMarkers(cfg);
         } else {
             alert(data);
         }
     }
+};
+
+var updatemarker = function(data){
+    if (isNullOrEmpty(data) === true) {
+        return false
+    }
+
+    if (data.startWith('Error') === true) {
+        return false
+    }
+
+    var cfg = JSON.parse(data);
+    doMarker(cfg);
+    doWindow(cfg);
 };
 
 //页面加载完成
